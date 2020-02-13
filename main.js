@@ -39,10 +39,15 @@ class Player {
     console.log(this.keyboarder.keyState)
     console.log('left', this.keyboarder.KEYS.LEFT)
     console.log('right', this.keyboarder.KEYS.RIGHT)
+    console.log('up', this.keyboarder.KEYS.UP)
     if (this.keyboarder.isDown(this.keyboarder.KEYS.LEFT)) {
       this.center.x -= 2
-    } else if (this.keyboarder.isDown((this.keyboarder.KEYS.RIGHT))) {
+    } else if (this.keyboarder.isDown(this.keyboarder.KEYS.RIGHT)) {
       this.center.x += 2
+    } else if (this.keyboarder.isDown(this.keyboarder.KEYS.UP)) {
+      this.center.y -= 2
+    } else if (this.keyboarder.isDown(this.keyboarder.KEYS.DOWN)) {
+      this.center.y += 2
     }
   }
 }
