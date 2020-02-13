@@ -1,3 +1,16 @@
 .canvas {
   background-color: #5B9279;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 6px solid #CCA43B;
+  border-radius: 10%;
+}
+
+.h2 {
+  color: #3C6E71
+}
+
+.p {
+  color: #3C6E71
 }

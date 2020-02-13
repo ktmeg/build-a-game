@@ -77,31 +77,54 @@ class Enemy {
     this.center = center
     this.size = { x: 10, y: 10 }
     this.moveX = 0
-    this.speedX = 0.2
+    this.speedX = Math.random() * 5 - 2.5
+    this.moveY = 0
+    this.speedY = Math.random() * 5 - 2.5
     // this.patrol = 0
   }
   update () {
     this.center.x += this.speedX
     this.moveX += this.speedX
-    // if (this.patrolX < 0 || this.patrolX > 30) {
-    //   this.speedX = -this.speedX
+    this.center.y += this.speedY
+    this.moveY += this.speedY
+     if (this.moveX < 0 || this.moveX > 50) {
+       this.speedX = -this.speedX
+  }  
+     if(this.moveY < 0 || this.moveY > 50) {
+      this.speedY = -this.speedY
+      //if I make x and y separate fuctions will it make them move independently
   }
 }
+}
+
 
 function spawn(game) {
   const enemies = []
   for (let i = 0; i < 10; i++) {
-    const x = Math.random() * 400
-    const y = Math.random() * 780
+    const x = Math.random() * 600
+    const y = Math.random() * 1280
+    // why is y double the size?
     enemies.push(new Enemy(game, { x: x, y: y }))
   }
   return enemies
 }
 
-function drawRect (screen, body) {
-  screen.fillRect(body.center.x - body.size.x / 2, body.center.y / 2, body.size.x, body.size.y);
-  // screen.fillStyle = "pink"
+// function drawRect (screen, body) {
+//   screen.fillRect(body.center.x - body.size.x / 2, body.center.y / 2, body.size.x, body.size.y)
+//   screen.fillStyle = "pink";
+// }
+
+function drawRect(screen, body) {
+  screen.fillRect(
+    body.center.x - body.size.x / 2,
+    body.center.y / 2,
+    body.size.x,
+    body.size.y
+  );
+  screen.fillStyle = "#FF5A5F";
 }
+
+
 
 // function colliding(b1, b2) {
 //   return !(
