@@ -1,5 +1,5 @@
 class Game {
-  constructor () {
+  constructor() {
     const canvas = document.querySelector('#run')
     const screen = canvas.getContext('2d')
     const gameSize = { x: canvas.width, y: canvas.height }
@@ -16,11 +16,29 @@ class Game {
     tick()
   }
 
-  update () {
+
+  update() {
+    // for (let i = 0; i < this.bodies.length; i++) {
+    //   this.bodies[i].update()
+    // }
     for (let i = 0; i < this.bodies.length; i++) {
       this.bodies[i].update()
     }
+    for (let i = 0; i < this.bodies.length; i++) {
+      if (
+        this.bodies[i].center.y > 1200 ||
+        this.bodies[i].center.x > 600 ||
+        this.bodies[i].center.y < 0 ||
+        this.bodies[i].center.x < 0
+      ) {
+        this.bodies.splice(i, 1)
+        this.bodies.push(
+          new Enemy(this, { x: Math.random() * 600, y: Math.random() * 600 })
+        )
+      }
+    }
   }
+
 
   draw (screen, gameSize) {
     screen.clearRect(0, 0, gameSize.x, gameSize.y)
@@ -37,7 +55,7 @@ class Game {
 class Player {
   constructor (game, gameSize) {
     this.game = game
-    this.size = { x: 12, y: 12 }
+    this.size = { x: 20, y: 20 }
     this.center = { x: gameSize.x / 2, y: gameSize.y - this.size.y * 2 }
     // this.center = { x: 50, y: 50 }
     this.keyboarder = Keyboarder
@@ -72,14 +90,14 @@ class Player {
 }
 
 class Enemy {
-  constructor(game, center) {
+  constructor (game, center) {
     this.game = game
     this.center = center
     this.size = { x: 10, y: 10 }
     this.moveX = 0
-    this.speedX = Math.random() * 5 - 2.5
+    this.speedX = Math.random() * 4 - 1
     this.moveY = 0
-    this.speedY = Math.random() * 5 - 2.5
+    this.speedY = Math.random() * 4 - 1
     // this.patrol = 0
   }
   update () {
@@ -87,20 +105,21 @@ class Enemy {
     this.moveX += this.speedX
     this.center.y += this.speedY
     this.moveY += this.speedY
-     if (this.moveX < 0 || this.moveX > 50) {
-       this.speedX = -this.speedX
-  }  
-     if(this.moveY < 0 || this.moveY > 50) {
+    if (this.moveX < 0 || this.moveX > 400) {
+      this.speedX = -this.speedX
+    }
+    if (this.moveY < 0 || this.moveY > 400) {
       this.speedY = -this.speedY
-      //if I make x and y separate fuctions will it make them move independently
+
+    }
   }
 }
-}
 
 
-function spawn(game) {
+
+function spawn (game) {
   const enemies = []
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 15; i++) {
     const x = Math.random() * 600
     const y = Math.random() * 1280
     // why is y double the size?
@@ -114,14 +133,14 @@ function spawn(game) {
 //   screen.fillStyle = "pink";
 // }
 
-function drawRect(screen, body) {
+function drawRect (screen, body) {
   screen.fillRect(
     body.center.x - body.size.x / 2,
     body.center.y / 2,
     body.size.x,
     body.size.y
   );
-  screen.fillStyle = "#FF5A5F";
+  screen.fillStyle = "#F1FFE7";
 }
 
 
