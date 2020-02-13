@@ -1,10 +1,12 @@
 const Keyboarder = {
   keyState: {},
   isDown: function (keyCode) {
+    console.log(keyCode)
     return this.keyState[keyCode] === true
   },
   on: function (keyCode, callback) {
     window.addEventListener('keydown', (e) => {
+      // console.log(e.keyCode)
       if (e.keyCode === keyCode) {
         callback()
       }
