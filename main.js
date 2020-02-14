@@ -1,5 +1,5 @@
 class Game {
-  constructor () {
+  constructor() {
     const canvas = document.querySelector('#run')
     const screen = canvas.getContext('2d')
     const gameSize = { x: canvas.width, y: canvas.height }
@@ -15,13 +15,13 @@ class Game {
     tick()
   }
 
-  update () {
+  update() {
     for (let i = 0; i < this.bodies.length; i++) {
       this.bodies[i].update()
     }
     for (let i = 0; i < this.bodies.length; i++) {
       if (
-        this.bodies[i].center.y > 1000 ||
+        this.bodies[i].center.y > 550 ||
         this.bodies[i].center.x > 550 ||
         this.bodies[i].center.y < 0 ||
         this.bodies[i].center.x < 0
@@ -39,27 +39,27 @@ class Game {
     return this.bodies.filter(notColliding)
   }
 
-  draw (screen, gameSize) {
+  draw(screen, gameSize) {
     screen.clearRect(0, 0, gameSize.x, gameSize.y)
     for (let i = 0; i < this.bodies.length; i++) {
       drawRect(screen, this.bodies[i])
     }
   }
 
-  addBody (body) {
+  addBody(body) {
     this.bodies.push(body)
   }
 }
 
 class Player {
-  constructor (game, gameSize) {
+  constructor(game, gameSize) {
     this.game = game
     this.size = { x: 20, y: 20 }
-    this.center = { x: gameSize.x / 2, y: gameSize.y - this.size.y * 2 }
+    this.center = { x: gameSize.x / 2, y: gameSize.y / 2 }
     this.keyboarder = Keyboarder
   }
 
-  update () {
+  update() {
     console.log(this.keyboarder.keyState)
     if (this.center.x > 30) {
       if (this.keyboarder.isDown(this.keyboarder.KEYS.LEFT)) {
@@ -76,7 +76,7 @@ class Player {
         this.center.y -= 2
       }
     }
-    if (this.center.y < 1000) {
+    if (this.center.y < 525) {
       if (this.keyboarder.isDown(this.keyboarder.KEYS.DOWN)) {
         this.center.y += 2
       }
@@ -85,7 +85,7 @@ class Player {
 }
 
 class Enemy {
-  constructor (game, center) {
+  constructor(game, center) {
     this.game = game
     this.center = center
     this.size = { x: 10, y: 10 }
@@ -94,7 +94,7 @@ class Enemy {
     this.moveY = 0
     this.speedY = Math.random() * 4 - 1
   }
-  update () {
+  update() {
     this.center.x += this.speedX
     this.moveX += this.speedX
     this.center.y += this.speedY
@@ -102,16 +102,17 @@ class Enemy {
     if (this.moveX < 0 || this.moveX > 400) {
       this.speedX = -this.speedX
     }
-    // change enemies to spawn outside and potentially increase number of enemies
     if (this.moveY < 0 || this.moveY > 400) {
       this.speedY = -this.speedY
     }
   }
 }
 
-function spawn (game) {
+// change enemies to spawn outside and potentially increase number of enemies to keep them from colliding with the player so quickly
+
+function spawn(game) {
   const enemies = []
-  for (let i = 0; i < 15; i++) {
+  for (let i = 0; i < 10; i++) {
     const x = Math.random() * 600
     const y = Math.random() * 1280
     // why is y double the size?
@@ -120,23 +121,23 @@ function spawn (game) {
   return enemies
 }
 
-function drawRect (screen, body) {
+function drawRect(screen, body) {
   screen.fillRect(
     body.center.x - body.size.x / 2,
-    body.center.y / 2,
+    body.center.y - body.size.y / 2,
     body.size.x,
     body.size.y
   )
   screen.fillStyle = '#F1FFE7'
 }
 
-function colliding (b1, b2) {
+function colliding(b1, b2) {
   return !(
     b1 === b2 ||
     b1.center.x + b1.size.x / 2 < b2.center.x - b2.size.x / 2 ||
-        b1.center.y + b1.size.y / 2 < b2.center.y - b2.size.y / 2 ||
-        b1.center.x - b1.size.x / 2 > b2.center.x + b2.size.x / 2 ||
-        b1.center.y - b1.size.y / 2 > b2.center.y + b2.size.y / 2
+    b1.center.y + b1.size.y / 2 < b2.center.y - b2.size.y / 2 ||
+    b1.center.x - b1.size.x / 2 > b2.center.x + b2.size.x / 2 ||
+    b1.center.y - b1.size.y / 2 > b2.center.y + b2.size.y / 2
   )
 }
 
