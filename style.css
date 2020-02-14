@@ -1,16 +1,29 @@
-.canvas {
-  background-color: #5B9279;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Shadows Into Light', cursive;
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
+  align-content: center;
   justify-content: center;
-  border: 6px solid #CCA43B;
+  flex-direction: column;
+}
+
+.canvas {
+  background-color: #A8DCD1;
+  border: 8px solid #CCA43B;
   border-radius: 10%;
 }
 
 .h2 {
-  color: #3C6E71
+  color:#5B9279;
+  font-size: 4rem; 
+  text-align: center;
 }
 
 .p {
-  color: #3C6E71
+  color:#5B9279;
+  font-size: 2rem;
+  text-align: center; 
 }

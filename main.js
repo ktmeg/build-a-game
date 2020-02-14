@@ -16,18 +16,14 @@ class Game {
     tick()
   }
 
-
   update() {
-    // for (let i = 0; i < this.bodies.length; i++) {
-    //   this.bodies[i].update()
-    // }
     for (let i = 0; i < this.bodies.length; i++) {
       this.bodies[i].update()
     }
     for (let i = 0; i < this.bodies.length; i++) {
       if (
-        this.bodies[i].center.y > 1200 ||
-        this.bodies[i].center.x > 600 ||
+        this.bodies[i].center.y > 1000 ||
+        this.bodies[i].center.x > 550 ||
         this.bodies[i].center.y < 0 ||
         this.bodies[i].center.x < 0
       ) {
@@ -57,31 +53,27 @@ class Player {
     this.game = game
     this.size = { x: 20, y: 20 }
     this.center = { x: gameSize.x / 2, y: gameSize.y - this.size.y * 2 }
-    // this.center = { x: 50, y: 50 }
     this.keyboarder = Keyboarder
   }
 
   update () {
     console.log(this.keyboarder.keyState)
-    // console.log('left', this.keyboarder.KEYS.LEFT)
-    // console.log('right', this.keyboarder.KEYS.RIGHT)
-    // console.log('up', this.keyboarder.KEYS.UP)
-    if (this.center.x > 0) {
+    if (this.center.x > 30) {
       if (this.keyboarder.isDown(this.keyboarder.KEYS.LEFT)) {
         this.center.x -= 2
       }
     }
-    if (this.center.x < 400) {
+    if (this.center.x < 525) {
       if (this.keyboarder.isDown(this.keyboarder.KEYS.RIGHT)) {
         this.center.x += 2
       }
     }
-    if (this.center.y > 0) {
+    if (this.center.y > 30) {
       if (this.keyboarder.isDown(this.keyboarder.KEYS.UP)) {
         this.center.y -= 2
       }
     }
-    if (this.center.y < 780) {
+    if (this.center.y < 1000) {
       if (this.keyboarder.isDown(this.keyboarder.KEYS.DOWN)) {
         this.center.y += 2
       }
@@ -98,7 +90,6 @@ class Enemy {
     this.speedX = Math.random() * 4 - 1
     this.moveY = 0
     this.speedY = Math.random() * 4 - 1
-    // this.patrol = 0
   }
   update () {
     this.center.x += this.speedX
@@ -110,12 +101,9 @@ class Enemy {
     }
     if (this.moveY < 0 || this.moveY > 400) {
       this.speedY = -this.speedY
-
     }
   }
 }
-
-
 
 function spawn (game) {
   const enemies = []
@@ -128,11 +116,6 @@ function spawn (game) {
   return enemies
 }
 
-// function drawRect (screen, body) {
-//   screen.fillRect(body.center.x - body.size.x / 2, body.center.y / 2, body.size.x, body.size.y)
-//   screen.fillStyle = "pink";
-// }
-
 function drawRect (screen, body) {
   screen.fillRect(
     body.center.x - body.size.x / 2,
@@ -140,10 +123,8 @@ function drawRect (screen, body) {
     body.size.x,
     body.size.y
   );
-  screen.fillStyle = "#F1FFE7";
+  screen.fillStyle = '#F1FFE7';
 }
-
-
 
 // function colliding(b1, b2) {
 //   return !(
