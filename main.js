@@ -15,7 +15,7 @@ class Game {
     tick()
   }
 
-  update() {
+  update () {
     for (let i = 0; i < this.bodies.length; i++) {
       this.bodies[i].update()
     }
@@ -39,7 +39,7 @@ class Game {
     return this.bodies.filter(notColliding)
   }
 
-  draw(screen, gameSize) {
+  draw (screen, gameSize) {
     screen.clearRect(0, 0, gameSize.x, gameSize.y)
     for (let i = 0; i < this.bodies.length; i++) {
       drawRect(screen, this.bodies[i])
@@ -47,19 +47,22 @@ class Game {
   }
 
   addBody(body) {
-    this.bodies.push(body)
+    let colliding = this.bodies.some(otherBody => isColliding (body, otherBody) && body.prototype === otherBody.prototype) 
+    if (!colliding) {
+      this.bodies.push(body)
+    }
   }
 }
 
 class Player {
-  constructor(game, gameSize) {
+  constructor (game, gameSize) {
     this.game = game
     this.size = { x: 20, y: 20 }
     this.center = { x: gameSize.x / 2, y: gameSize.y / 2 }
     this.keyboarder = Keyboarder
   }
 
-  update() {
+  update () {
     console.log(this.keyboarder.keyState)
     if (this.center.x > 30) {
       if (this.keyboarder.isDown(this.keyboarder.KEYS.LEFT)) {
@@ -85,7 +88,7 @@ class Player {
 }
 
 class Enemy {
-  constructor(game, center) {
+  constructor (game, center) {
     this.game = game
     this.center = center
     this.size = { x: 10, y: 10 }
@@ -94,15 +97,15 @@ class Enemy {
     this.moveY = 0
     this.speedY = Math.random() * 4 - 1
   }
-  update() {
+  update () {
     this.center.x += this.speedX
     this.moveX += this.speedX
     this.center.y += this.speedY
     this.moveY += this.speedY
-    if (this.moveX < 0 || this.moveX > 400) {
+    if (this.moveX < 0 || this.moveX > 500) {
       this.speedX = -this.speedX
     }
-    if (this.moveY < 0 || this.moveY > 400) {
+    if (this.moveY < 0 || this.moveY > 500) {
       this.speedY = -this.speedY
     }
   }
@@ -110,18 +113,19 @@ class Enemy {
 
 // change enemies to spawn outside and potentially increase number of enemies to keep them from colliding with the player so quickly
 
-function spawn(game) {
+function spawn (game) {
   const enemies = []
-  for (let i = 0; i < 10; i++) {
-    const x = Math.random() * 600
-    const y = Math.random() * 1280
-    // why is y double the size?
+  const canvas = document.querySelector('#run')
+  const gameSize = { x: canvas.width, y: canvas.height }
+  for (let i = 0; i < 12; i++) {
+    const x = 300 + Math.random() * 500
+    const y = 300 + Math.random() * 500
     enemies.push(new Enemy(game, { x: x, y: y }))
   }
   return enemies
 }
 
-function drawRect(screen, body) {
+function drawRect (screen, body) {
   screen.fillRect(
     body.center.x - body.size.x / 2,
     body.center.y - body.size.y / 2,
@@ -131,7 +135,7 @@ function drawRect(screen, body) {
   screen.fillStyle = '#F1FFE7'
 }
 
-function colliding(b1, b2) {
+function colliding (b1, b2) {
   return !(
     b1 === b2 ||
     b1.center.x + b1.size.x / 2 < b2.center.x - b2.size.x / 2 ||
