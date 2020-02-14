@@ -46,7 +46,7 @@ class Game {
     }
   }
 
-  addBody(body) {
+  addBody (body) {
     let colliding = this.bodies.some(otherBody => isColliding (body, otherBody) && body.prototype === otherBody.prototype) 
     if (!colliding) {
       this.bodies.push(body)
@@ -93,9 +93,9 @@ class Enemy {
     this.center = center
     this.size = { x: 10, y: 10 }
     this.moveX = 0
-    this.speedX = Math.random() * 4 - 1
+    this.speedX = Math.random() * 5 - 2.5
     this.moveY = 0
-    this.speedY = Math.random() * 4 - 1
+    this.speedY = Math.random() * 5 - 2.5
   }
   update () {
     this.center.x += this.speedX
@@ -118,8 +118,8 @@ function spawn (game) {
   const canvas = document.querySelector('#run')
   const gameSize = { x: canvas.width, y: canvas.height }
   for (let i = 0; i < 12; i++) {
-    const x = 300 + Math.random() * 500
-    const y = 300 + Math.random() * 500
+    const x = Math.random() * 500
+    const y = Math.random() * 500
     enemies.push(new Enemy(game, { x: x, y: y }))
   }
   return enemies
