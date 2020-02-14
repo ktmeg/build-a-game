@@ -1,12 +1,11 @@
 class Game {
-  constructor() {
+  constructor () {
     const canvas = document.querySelector('#run')
     const screen = canvas.getContext('2d')
     const gameSize = { x: canvas.width, y: canvas.height }
     this.bodies = []
     this.bodies = this.bodies.concat(spawn(this))
     this.bodies = this.bodies.concat(new Player(this, gameSize))
-
 
     const tick = () => {
       this.update()
@@ -16,9 +15,10 @@ class Game {
     tick()
   }
 
-  update() {
+  update () {
     for (let i = 0; i < this.bodies.length; i++) {
       this.bodies[i].update()
+      // does this need to go to bottom of the function?? does that matter?
     }
     for (let i = 0; i < this.bodies.length; i++) {
       if (
@@ -33,8 +33,11 @@ class Game {
         )
       }
     }
+    const notColliding = (b1) => {
+      return this.bodies.filter(function (b2) { return colliding(b1, b2) }).length === 0
+    }
+    return this.bodies.filter(notColliding)
   }
-
 
   draw (screen, gameSize) {
     screen.clearRect(0, 0, gameSize.x, gameSize.y)
@@ -122,19 +125,20 @@ function drawRect (screen, body) {
     body.center.y / 2,
     body.size.x,
     body.size.y
-  );
-  screen.fillStyle = '#F1FFE7';
+  )
+  screen.fillStyle = '#F1FFE7'
 }
 
-// function colliding(b1, b2) {
-//   return !(
-//     b1 === b2 ||
-//     b1.center.x + b1.size.x / 2 < b2.center.x - b2.size.x / 2 ||
-//         b1.center.y + b1.size.y / 2 < b2.center.y - b2.size.y / 2 ||
-//         b1.center.x - b1.size.x / 2 > b2.center.x + b2.size.x / 2 ||
-//         b1.center.y - b1.size.y / 2 > b2.center.y + b2.size.y / 2
-//   )
-// }
+function colliding (b1, b2) {
+  return !(
+    b1 === b2 ||
+    b1.center.x + b1.size.x / 2 < b2.center.x - b2.size.x / 2 ||
+        b1.center.y + b1.size.y / 2 < b2.center.y - b2.size.y / 2 ||
+        b1.center.x - b1.size.x / 2 > b2.center.x + b2.size.x / 2 ||
+        b1.center.y - b1.size.y / 2 > b2.center.y + b2.size.y / 2
+  )
+}
+//colliding fuction not registering -- added return to update function in Game class
 
 window.addEventListener('load', function () {
   new Game()
