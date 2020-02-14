@@ -18,7 +18,6 @@ class Game {
   update () {
     for (let i = 0; i < this.bodies.length; i++) {
       this.bodies[i].update()
-      // does this need to go to bottom of the function?? does that matter?
     }
     for (let i = 0; i < this.bodies.length; i++) {
       if (
@@ -29,13 +28,14 @@ class Game {
       ) {
         this.bodies.splice(i, 1)
         this.bodies.push(
-          new Enemy(this, { x: Math.random() * 600, y: Math.random() * 600 })
+          new Enemy(this, { x: Math.random() * 550, y: Math.random() * 550 })
         )
       }
     }
     const notColliding = (b1) => {
       return this.bodies.filter(function (b2) { return colliding(b1, b2) }).length === 0
     }
+    this.bodies = this.bodies.filter(notColliding)
     return this.bodies.filter(notColliding)
   }
 
@@ -102,6 +102,7 @@ class Enemy {
     if (this.moveX < 0 || this.moveX > 400) {
       this.speedX = -this.speedX
     }
+    // change enemies to spawn outside and potentially increase number of enemies
     if (this.moveY < 0 || this.moveY > 400) {
       this.speedY = -this.speedY
     }
@@ -138,7 +139,6 @@ function colliding (b1, b2) {
         b1.center.y - b1.size.y / 2 > b2.center.y + b2.size.y / 2
   )
 }
-//colliding fuction not registering -- added return to update function in Game class
 
 window.addEventListener('load', function () {
   new Game()
